@@ -6,6 +6,16 @@ const StationSchema = new mongoose.Schema({
 	"Latitude": Number,
 	"Longitude": Number,
 	"Station Number": Number
-},{timestamps:true});
+},{timestamps:true},{collection:'stations'});
+
+StationSchema.methods.toJSON = function(){
+	return {
+		id_short:this['Station Number'],
+		id_long:this['Station ID'],
+		lng:this.Longitude,
+		lat:this.Latitude,
+		name:this.Station
+	}
+}
 
 mongoose.model('Station',StationSchema);

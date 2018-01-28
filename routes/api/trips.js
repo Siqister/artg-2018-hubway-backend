@@ -32,17 +32,14 @@ router.get('/', (req,res,next) => {
 	}
 
 	return Promise.all([
-		Trip.find(query),
-		Trip.count(query).exec()
-	]).then(function(results){
-		const trips = results[0];
-		const count = results[1];
-
-		return res.json({
-			count:count,
-			trips:trips.map(x => x.toJSON())
-		});
-	});
+			Trip.find(query),
+			Trip.count(query).exec()
+		]).then(([trips,count]) =>
+			res.json({
+				count:count,
+				trips:trips.map(x => x.toJSON())
+			})
+		).catch(next);
 
 });
 
